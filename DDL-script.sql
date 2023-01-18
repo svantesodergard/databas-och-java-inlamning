@@ -39,7 +39,7 @@ create table product_in_category(
 
 create table `order`(
     id int not null primary key auto_increment,
-    delivery_city VARCHAR(255) not null,
+    delivery_city VARCHAR(255),
     time_placed TIMESTAMP default CURRENT_TIMESTAMP,
     costumer_id int,
     foreign key (costumer_id) references costumer(id) on delete set null
@@ -51,7 +51,7 @@ create table product_variation_in_order (
     product_variation_id int not null,
     foreign key (order_id) references `order`(id) on delete cascade,
     foreign key (product_variation_id) references product_variation(id),
-    amount int not null default 1
+    amount int not null default 0
 );
 
 
@@ -91,7 +91,13 @@ insert into product_variation (product_id, size, color, stock) values
     (3, 39, 'Yacht Club', 8),
     (3, 40, 'Yacht Club', 10),
     (3, 41, 'Yacht Club', 23),
-    (3, 42, 'Yacht Club', 17);
+    (3, 42, 'Yacht Club', 17),
+
+    (4, 42, 'Black', 10),
+    (5, 42, 'Black', 10),
+    (6, 42, 'Black', 10),
+    (7, 42, 'Black', 10),
+    (8, 42, 'Black', 10);
 
 -- Add products to category
 insert into category(name) values
@@ -110,6 +116,7 @@ insert into product_in_category(category_id, product_id) values
 
     (2, 1),
     (2, 4),
+    (2, 8),
 
     (3, 1),
 
