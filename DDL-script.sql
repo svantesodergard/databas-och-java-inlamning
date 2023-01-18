@@ -15,10 +15,15 @@ create table product (
     price int not null
 );
 
+-- Index, En av de vanligaste sökningar i en butik kommer vara efter dess produkter
+create index IX_brand on product(brand);
+create index IX_model on product(model);
+
 create table product_variation (
     id int not null primary key auto_increment,
     product_id int,
-    foreign key (product_id) references product(id),
+    -- Om en produkt tas bort tas även varianterna av den borts
+    foreign key (product_id) references product(id) on delete cascade,
     size int,
     color VARCHAR(255),
     stock int
@@ -33,6 +38,8 @@ create table product_in_category(
     id int not null primary key auto_increment,
     category_id int,
     product_id int,
+    -- Cascade då tabellens syfte är att spara relationer mellan produkter och kategori
+    -- finns ingen vits att spara en rad om de inte finns
     foreign key (category_id) references category(id) on delete cascade,
     foreign key (product_id) references product(id) on delete cascade
 );
@@ -42,6 +49,8 @@ create table `order`(
     delivery_city VARCHAR(255),
     time_placed TIMESTAMP default CURRENT_TIMESTAMP,
     costumer_id int,
+    -- Kan vara användbart att ha en historik alla över beställningar som gjort även om en kund tar
+    -- bort sitt konto
     foreign key (costumer_id) references costumer(id) on delete set null
 );
 
@@ -49,8 +58,10 @@ create table product_variation_in_order (
     id int not null primary key auto_increment,
     order_id int not null,
     product_variation_id int not null,
+    -- Cascade då tabellens syfte är att spara relationer mellan produkter och beställningar
+    -- finns ingen vits att spara en rad om de inte finns
     foreign key (order_id) references `order`(id) on delete cascade,
-    foreign key (product_variation_id) references product_variation(id),
+    foreign key (product_variation_id) references product_variation(id) on delete cascade,
     amount int not null default 0
 );
 
