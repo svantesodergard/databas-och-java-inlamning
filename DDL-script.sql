@@ -5,7 +5,8 @@ use MyShoeStore;
 -- Create Tables
 create table costumer(
     id int not null primary key auto_increment,
-    name VARCHAR(255) not null
+    name VARCHAR(255) not null,
+    password VARCHAR(255) not null
 );
 
 create table product (
@@ -46,7 +47,7 @@ create table product_in_category(
 
 create table `order`(
     id int not null primary key auto_increment,
-    delivery_city VARCHAR(255),
+    delivery_city VARCHAR(255) not null,
     time_placed TIMESTAMP default CURRENT_TIMESTAMP,
     costumer_id int,
     -- Kan vara användbart att ha en historik alla över beställningar som gjort även om en kund tar
@@ -138,12 +139,12 @@ insert into product_in_category(category_id, product_id) values
     (5, 5);
 
 -- Add costumers
-insert into costumer(name) values
-    ('Adam Alpha'),
-    ('Bertil Bravo'),
-    ('Charlie Cesar'),
-    ('David Delta'),
-    ('Erik Echo');
+insert into costumer(name, password) values
+    ('Adam Alpha', '1'),
+    ('Bertil Bravo', '1'),
+    ('Charlie Cesar', '1'),
+    ('David Delta', '1'),
+    ('Erik Echo', '1');
 
 -- Place orders
 insert into `order`(delivery_city, costumer_id) values
